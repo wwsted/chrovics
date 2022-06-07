@@ -1,0 +1,542 @@
+local Library = loadstring(Game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wizard"))()
+local PhantomForcesWindow = Library:NewWindow("chrovics")
+local KillingCheats = PhantomForcesWindow:NewSection("sstefan#1337")
+KillingCheats:CreateButton("close sets", function()
+--[[
+
+ ██████╗██╗  ██╗██████╗  ██████╗ ██╗   ██╗██╗ ██████╗███████╗
+██╔════╝██║  ██║██╔══██╗██╔═══██╗██║   ██║██║██╔════╝██╔════╝
+██║     ███████║██████╔╝██║   ██║██║   ██║██║██║     ███████╗
+██║     ██╔══██║██╔══██╗██║   ██║╚██╗ ██╔╝██║██║     ╚════██║
+╚██████╗██║  ██║██║  ██║╚██████╔╝ ╚████╔╝ ██║╚██████╗███████║
+ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝   ╚═══╝  ╚═╝ ╚═════╝╚══════╝
+ 
+ ]]
+
+ -- 's#6798 dm for questions
+
+ -- sets
+ 
+ --[[
+     0.129145 // close // 30 - 80 ping // main ;
+     0.11934 // far // 30 - 80 ping // main ;
+     0.1357 // close // 50 - 120 ping ;
+     0.129934 // close // 140 - 180 ping
+     0.165455312399999 // far // 140 - 180 ping ;
+     0.165771 // far // 200 - 300 ping ;
+     0.16780 // close // 200 - 300 ping ;
+
+     // local accomidationfactor to change sets // 
+
+ ]]
+
+ game.StarterGui:SetCore("SendNotification", {
+    Title = "chrovics close";
+    Text = "sstefan#1337";
+
+})
+
+local CC = game:GetService'Workspace'.CurrentCamera
+local Plr
+local enabled = false
+local accomidationfactor = 0.129145
+local mouse = game.Players.LocalPlayer:GetMouse()
+local placemarker = Instance.new("Part", game.Workspace)
+local guimain = Instance.new("Folder", game.CoreGui)
+
+    function makemarker(Parent, Adornee, Color, Size, Size2)
+        local e = Instance.new("BillboardGui", Parent)
+        e.Name = "PP"
+        e.Adornee = Adornee
+        e.Size = UDim2.new(Size, Size2, Size, Size2)
+        e.AlwaysOnTop = true
+        local a = Instance.new("Frame", e)
+        a.Size = UDim2.new(1, 0, 1, 0)
+        a.BackgroundTransparency = 0
+        a.BackgroundColor3 = Color
+        local g = Instance.new("UICorner", a)
+        g.CornerRadius = UDim.new(50, 50)
+        return(e)
+    end
+
+local data = game.Players:GetPlayers()
+function noob(player)
+    local character
+    repeat wait() until player.Character
+    local handler = makemarker(guimain, player.Character:WaitForChild("LowerTorso"), Color3.fromRGB(0, 255, 255), 0.0, 0)
+    handler.Name = player.Name
+    player.CharacterAdded:connect(function(Char) handler.Adornee = Char:WaitForChild("LowerTorso") end)
+    
+	local TextLabel = Instance.new("TextLabel", handler)
+	TextLabel.BackgroundTransparency = 1
+	TextLabel.Position = UDim2.new(0, 0, 0, -50)
+	TextLabel.Size = UDim2.new(0, 100, 0, 100)
+	TextLabel.Font = Enum.Font.SourceSansSemibold
+	TextLabel.TextSize = 14
+	TextLabel.TextColor3 = Color3.new(1, 1, 1)
+	TextLabel.TextStrokeTransparency = 0
+	TextLabel.TextYAlignment = Enum.TextYAlignment.Bottom
+	TextLabel.Text = 'Name: '..player.Name
+	TextLabel.ZIndex = 10
+	
+	spawn(function()
+        while wait() do
+            if player.Character then
+                --TextLabel.Text = player.Name.." | Bounty: "..tostring(player:WaitForChild("leaderstats").Wanted.Value).." | "..tostring(math.floor(player.Character:WaitForChild("Humanoid").Health))
+            end
+        end
+	end)
+end
+
+for i = 1, #data do
+    if data[i] ~= game.Players.LocalPlayer then
+        noob(data[i])
+    end
+end
+
+game.Players.PlayerAdded:connect(function(Player)
+    noob(Player)
+end)
+
+game.Players.PlayerRemoving:Connect(function(player)
+    guimain[player.Name]:Destroy()
+end)
+
+    spawn(function()
+        placemarker.Anchored = true
+        placemarker.CanCollide = false
+        placemarker.Size = Vector3.new(6, 6, 6)
+        placemarker.Transparency = 100
+        makemarker(placemarker, placemarker, Color3.fromRGB(0, 255, 255), 0.40, 0)
+    end)  
+
+mouse.KeyDown:Connect(function(k)
+    if k ~= "q" then return end
+    if enabled then
+        enabled = false
+       -- guimain[Plr.Name].Frame.BackgroundColor3 = Color3.fromRGB(0, 255, 255)
+    else
+        enabled = true 
+        Plr = getClosestPlayerToCursor()
+        --guimain[Plr.Name].Frame.BackgroundColor3 = Color3.fromRGB(0, 255, 255)
+    end    
+end)
+
+function getClosestPlayerToCursor()
+    local closestPlayer
+    local shortestDistance = math.huge
+
+    for i, v in pairs(game.Players:GetPlayers()) do
+        if v ~= game.Players.LocalPlayer and v.Character and v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid.Health ~= 0 and v.Character:FindFirstChild("LowerTorso") then
+            local pos = CC:WorldToViewportPoint(v.Character.PrimaryPart.Position)
+            local magnitude = (Vector2.new(pos.X, pos.Y) - Vector2.new(mouse.X, mouse.Y)).magnitude
+            if magnitude < shortestDistance then
+                closestPlayer = v
+                shortestDistance = magnitude
+            end
+        end
+    end
+   return closestPlayer
+end
+
+	game:GetService"RunService".Stepped:connect(function()
+		if enabled and Plr.Character and Plr.Character:FindFirstChild("LowerTorso") then
+			placemarker.CFrame = CFrame.new(Plr.Character.UpperTorso.Position+(Plr.Character.UpperTorso.Velocity*accomidationfactor))
+		else
+			placemarker.CFrame = CFrame.new(0, 9999, 0)
+		end
+	end)
+
+	local mt = getrawmetatable(game)
+	local old = mt.__namecall
+	setreadonly(mt, false)
+	mt.__namecall = newcclosure(function(...)
+		local args = {...}
+		if enabled and getnamecallmethod() == "FireServer" and args[2] == "UpdateMousePos" then
+			args[3] = Plr.Character.LowerTorso.Position+(Plr.Character.LowerTorso.Velocity*accomidationfactor)
+			return old(unpack(args))
+		end
+		return old(...)
+	end)
+end)
+KillingCheats:CreateButton("speed", function()
+--[[
+
+ ██████╗██╗  ██╗██████╗  ██████╗ ██╗   ██╗██╗ ██████╗███████╗
+██╔════╝██║  ██║██╔══██╗██╔═══██╗██║   ██║██║██╔════╝██╔════╝
+██║     ███████║██████╔╝██║   ██║██║   ██║██║██║     ███████╗
+██║     ██╔══██║██╔══██╗██║   ██║╚██╗ ██╔╝██║██║     ╚════██║
+╚██████╗██║  ██║██║  ██║╚██████╔╝ ╚████╔╝ ██║╚██████╗███████║
+ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝   ╚═══╝  ╚═╝ ╚═════╝╚══════╝
+ 
+ ]]
+
+-- speed glitch
+
+-- spam "m" to add speed
+
+-- keybind "t" to stop
+ 
+game.StarterGui:SetCore("SendNotification", {
+    Title = "chrovics speed";
+    Text = "sstefan#1337";
+
+})
+
+IsFirstPerson = false
+ShiftHeld = false
+WHeld = false
+SHeld = false
+AHeld = false
+DHeld = false -- LMFAO
+local gcheck = true
+urspeed = 0.05 -- the lower it is the faster , So don't worry about it being minus 1
+
+
+function ChangeFaster(inputObject, gameProcessedEvent)
+    if inputObject.KeyCode == Enum.KeyCode.N and gameProcessedEvent == false then        
+urspeed = urspeed - 0.025
+    end
+end
+ 
+
+
+function ChangeSlower(inputObject, gameProcessedEvent)
+    if inputObject.KeyCode == Enum.KeyCode.M and gameProcessedEvent == false then        
+urspeed = urspeed + 0.025
+    end
+end
+ 
+
+
+function GChecker(inputObject, gameProcessedEvent)
+    if inputObject.KeyCode == Enum.KeyCode.T and gameProcessedEvent == false then        
+if gcheck == false then
+gcheck = true
+elseif gcheck == true then
+gcheck = false
+end
+
+    end
+end
+ 
+game:GetService("UserInputService").InputBegan:connect(GChecker)
+
+
+
+function PressShift(inputObject,gameProcessedEvent)
+    if inputObject.KeyCode == Enum.KeyCode.LeftShift and gameProcessedEvent == false and gcheck == true then
+        ShiftHeld = true
+    end
+end
+
+function ReleaseShift(inputObject,gameProcessed)
+    if inputObject.KeyCode == Enum.KeyCode.LeftShift then
+        ShiftHeld = false
+    end
+end
+
+
+function PressW(inputObject,gameProcessedEvent)
+    if inputObject.KeyCode == Enum.KeyCode.W and gameProcessedEvent == false and gcheck == true then
+        WHeld = true
+    end
+end
+
+function ReleaseW(inputObject,gameProcessed)
+    if inputObject.KeyCode == Enum.KeyCode.W then
+        WHeld = false
+    end
+end
+
+function PressS(inputObject,gameProcessedEvent)
+    if inputObject.KeyCode == Enum.KeyCode.S and gameProcessedEvent == false and gcheck == true then
+        SHeld = true
+    end
+end
+
+function ReleaseS(inputObject,gameProcessed)
+    if inputObject.KeyCode == Enum.KeyCode.S then
+        SHeld = false
+    end
+end
+
+
+function PressA(inputObject,gameProcessedEvent)
+    if inputObject.KeyCode == Enum.KeyCode.A and gameProcessedEvent == false and gcheck == true then
+        AHeld = true
+    end
+end
+
+function ReleaseA(inputObject,gameProcessed)
+    if inputObject.KeyCode == Enum.KeyCode.A then
+        AHeld = false
+    end
+end
+
+
+function PressD(inputObject,gameProcessedEvent)
+    if inputObject.KeyCode == Enum.KeyCode.D and gameProcessedEvent == false and gcheck == true then
+        DHeld = true
+    end
+end
+
+function ReleaseD(inputObject,gameProcessed)
+    if inputObject.KeyCode == Enum.KeyCode.D then
+        DHeld = false
+    end
+end
+
+function CheckFirst(inputObject,gameProcessed)
+    if inputObject.KeyCode == Enum.UserInputType.MouseWheel then
+        if (player.Character.Head.CFrame.p - workspace.CurrentCamera.CFrame.p).magnitude < 0.6 then
+            IsFirstPerson = true
+	elseif (player.Character.Head.CFrame.p - workspace.CurrentCamera.CFrame.p).magnitude > 0.6 then
+	    IsFirstPerson = false
+        end
+    end
+end
+
+game:GetService("UserInputService").InputBegan:connect(PressShift)
+game:GetService("UserInputService").InputEnded:connect(ReleaseShift)
+
+game:GetService("UserInputService").InputBegan:connect(PressW)
+game:GetService("UserInputService").InputEnded:connect(ReleaseW)
+
+game:GetService("UserInputService").InputBegan:connect(PressS)
+game:GetService("UserInputService").InputEnded:connect(ReleaseS)
+
+game:GetService("UserInputService").InputBegan:connect(PressA)
+game:GetService("UserInputService").InputEnded:connect(ReleaseA)
+
+game:GetService("UserInputService").InputBegan:connect(PressD)
+game:GetService("UserInputService").InputEnded:connect(ReleaseD)
+
+game:GetService("UserInputService").InputChanged:connect(CheckFirst)
+
+game:GetService("UserInputService").InputBegan:connect(ChangeFaster)
+game:GetService("UserInputService").InputBegan:connect(ChangeSlower)
+
+
+game:GetService('RunService').Stepped:connect(function()
+if ShiftHeld == true then
+
+if WHeld == true then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0,0,-urspeed)
+end
+
+if SHeld == true then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0,0,urspeed)
+end
+
+if DHeld == true then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(urspeed,0,0)
+end
+
+if AHeld == true then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(-urspeed,0,0)
+end
+
+
+end
+end)
+
+repeat
+    wait()
+until game:IsLoaded()
+local gm = getrawmetatable(game)
+setreadonly(gm, false)
+local namecall = gm.__namecall
+gm.__namecall =
+    newcclosure(
+    function(self, ...)
+        local args = {...}
+        if not checkcaller() and getnamecallmethod() == "FireServer" and tostring(self) == "MainEvent" then
+            if tostring(getcallingscript()) ~= "Framework" then
+                return
+            end
+        end
+        if not checkcaller() and getnamecallmethod() == "Kick" then
+            return
+        end
+        return namecall(self, unpack(args))
+    end
+)
+
+end)
+KillingCheats:CreateButton("anti aim", function()
+ game.StarterGui:SetCore("SendNotification", {
+    Title = "best anti aim keybind V";
+    Text = "sstefan#1337";
+
+})
+assert(getrawmetatable)
+grm = getrawmetatable(game)
+setreadonly(grm, false)
+old = grm.__namecall
+grm.__namecall = newcclosure(function(self, ...)
+    local args = {...}
+    if tostring(args[1]) == "TeleportDetect" then
+        return
+    elseif tostring(args[1]) == "CHECKER_1" then
+        return
+    elseif tostring(args[1]) == "CHECKER" then
+        return
+    elseif tostring(args[1]) == "GUI_CHECK" then
+        return
+    elseif tostring(args[1]) == "OneMoreTime" then
+        return
+    elseif tostring(args[1]) == "checkingSPEED" then
+        return
+    elseif tostring(args[1]) == "BANREMOTE" then
+        return
+    elseif tostring(args[1]) == "PERMAIDBAN" then
+        return
+    elseif tostring(args[1]) == "KICKREMOTE" then
+        return
+    elseif tostring(args[1]) == "BR_KICKPC" then
+        return
+    elseif tostring(args[1]) == "BR_KICKMOBILE" then
+        return
+    end
+    return old(self, ...)
+end)
+
+
+local userInput = game:service('UserInputService')
+local runService = game:service('RunService')
+local LocalPlayer = game.Players.LocalPlayer
+
+userInput.InputBegan:connect(function(Key)
+    if Key.KeyCode == Enum.KeyCode.V then
+        Enabled = not Enabled
+        if Enabled == true then
+            LocalPlayer.Character.Humanoid.HipHeight = 4.11936
+            repeat
+                    wait()
+                    LocalPlayer.Character.HumanoidRootPart.CFrame = LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, -1.88899, 0)
+                runService.Stepped:wait()
+            until Enabled == false
+            if Enabled == false then
+                LocalPlayer.Character.Humanoid.HipHeight = 2
+            end
+        end
+    end
+	end)
+end)
+KillingCheats:CreateButton("circles", function()
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "chrovics anti";
+        Text =  "sstefan#1337";
+      })
+
+    local Zenaki = false
+
+function onKeyPress(inputObject, gameProcessedEvent)
+    if inputObject.KeyCode == Enum.KeyCode.Y and gameProcessedEvent == false then
+     if Zenaki == false then
+       Zenaki = true
+
+     elseif Zenaki == true then
+       Zenaki = false
+    
+       
+     end
+   end
+end
+ 
+game:GetService("UserInputService").InputBegan:connect(onKeyPress)
+
+
+    game:GetService("RunService").RenderStepped:Connect(function()
+    if Zenaki == true then
+ game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.lookVector * 14
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.Angles(0, math.rad(3.50), 0)
+    end
+    
+end)
+loadstring(game:HttpGet("https://gist.githubusercontent.com/murderspree/84309f4b27fc481923f1a647c204826d/raw/a1134751b9ab8cdae1b4fbc7db9230516d8d0eca/gistfile1.txt"))()
+
+end)
+KillingCheats:CreateButton("no recoil", function()
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "chrovics no recoil";
+            Text =  "sstefan#1337";
+          })
+          local CurrentFocus = game:GetService("Workspace").CurrentCamera.CFrame
+          game:GetService("Workspace").CurrentCamera:Destroy()
+          local Instance = Instance.new("Camera", game:GetService("Workspace"))
+          Instance.CameraSubject = game:GetService("Players").LocalPlayer.Character.Humanoid
+          Instance.CameraType = Enum.CameraType.Custom
+          Instance.CFrame = CurrentFocus
+        
+end)
+KillingCheats:CreateButton("headless", function()
+ game.StarterGui:SetCore("SendNotification", {
+    Title = "chrovics headless";
+    Text = "sstefan#1337";
+
+})
+local L_393_ = game.Players.LocalPlayer.Character
+    local L_394_ = L_393_:WaitForChild("Head")
+    local L_395_ = L_394_:WaitForChild("face")
+    L_395_.Transparency = 1 --Texture = "rbxassetid://209712379"
+    L_394_.Transparency = 1
+    local L_396_ = game.Players.LocalPlayer.Character
+    local L_397_ = game.Players.LocalPlayer.Character
+    local L_398_ = L_396_.Head
+    local L_399_ = L_398_.face
+    local L_400_ = L_397_.RightFoot
+    local L_401_ = L_397_.RightLowerLeg
+    local L_402_ = L_397_.RightUpperLeg
+    local L_403_ = L_397_.LeftFoot
+    local L_404_ = L_397_.LeftLowerLeg
+    local L_405_ = L_397_.LeftUpperLeg
+    L_400_.MeshId = "http://www.roblox.com/asset/?id=902942093"
+    L_401_.MeshId = "http://www.roblox.com/asset/?id=902942093"
+    L_402_.MeshId = "http://www.roblox.com/asset/?id=902942096"
+    L_402_.TextureID = "http://roblox.com/asset/?id=902843398"
+    L_400_.Transparency = 1
+    L_401_.Transparency = 1
+    local L_393_ = game.Players.LocalPlayer.Character
+    local L_394_ = L_393_:WaitForChild("Head")
+    local L_395_ = L_394_:WaitForChild("face")
+    L_395_.Transparency = 1 --Texture = "rbxassetid://209712379"
+    L_394_.Transparency = 1
+    local L_396_ = game.Players.LocalPlayer.Character
+    local L_397_ = game.Players.LocalPlayer.Character
+    local L_398_ = L_396_.Head
+    local L_399_ = L_398_.face
+    local L_400_ = L_397_.RightFoot
+    local L_401_ = L_397_.RightLowerLeg
+    local L_402_ = L_397_.RightUpperLeg
+    local L_403_ = L_397_.LeftFoot
+    local L_404_ = L_397_.LeftLowerLeg
+    local L_405_ = L_397_.LeftUpperLeg
+    L_400_.MeshId = "http://www.roblox.com/asset/?id=902942093"
+    L_401_.MeshId = "http://www.roblox.com/asset/?id=902942093"
+    L_402_.MeshId = "http://www.roblox.com/asset/?id=902942096"
+    L_402_.TextureID = "http://roblox.com/asset/?id=902843398"
+    L_400_.Transparency = 1
+    L_401_.Transparency = 1
+    
+end)
+KillingCheats:CreateButton("low gfx", function()
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "chrovics low gfx";
+        Text =  "sstefan#1337";
+      })
+      for _,v in pairs(workspace:GetDescendants()) do
+        if v.ClassName == "Part"
+        or v.ClassName == "SpawnLocation"
+        or v.ClassName == "WedgePart"
+        or v.ClassName == "Terrain"
+        or v.ClassName == "MeshPart" then
+        v.Material = "Plastic"
+        end
+        end
+    
+end)
+
+
+
